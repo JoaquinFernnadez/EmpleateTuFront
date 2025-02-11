@@ -1,9 +1,10 @@
 import Offer from "../models/Offer"
 import { fetchAPI } from "../utils/FetchApi"
-const API_URL_BASE =import.meta.env.VITE_API_URL_BASE
+const API_URL_BASE = import.meta.env.VITE_API_URL_BASE
 
 export class OfferService {
-    static async getAll() {
+    static async search(title?: string) {
+        if(title) return  await fetchAPI(API_URL_BASE+'/offers?title='+ title)
         return await fetchAPI(API_URL_BASE+'/offers')
     }
 
@@ -36,4 +37,15 @@ export class OfferService {
     static async getById(id:number) {
         return await fetchAPI(API_URL_BASE+'/offers/'+ id)
 }
+    static async delete(id:number) {
+         await fetchAPI(API_URL_BASE+'/offers/'+ id,{
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include'  
+     }) 
+     return
+    }
+    
 }
